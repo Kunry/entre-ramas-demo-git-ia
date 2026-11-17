@@ -1,0 +1,23 @@
+{
+  "name": "entre-ramas-demo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "demo:inicio": "vite ../demo-inicial --host 127.0.0.1 --port 5174 --strictPort",
+    "demo:programa": "vite ../demo-programa --host 127.0.0.1 --port 5175 --strictPort",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "build": "npm run check && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "jsdom": "^27.0.1",
+    "typescript": "^7.0.2",
+    "vite": "^7.3.8",
+    "vitest": "^3.2.7"
+  }
+}
