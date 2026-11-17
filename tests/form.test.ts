@@ -74,4 +74,35 @@ describe('interacción del formulario', () => {
     cleanup();
     expect(vi.getTimerCount()).toBe(0);
   });
+
+  it('muestra una confirmación accesible después de un envío válido', async () => {
+    fillValidForm();
+    submit();
+    await vi.runAllTimersAsync();
+    const feedback = requireElement<HTMLDivElement>(form, '#registration-feedback');
+    expect(feedback.hidden).toBe(false);
+    expect(feedback.textContent).toContain('Envío de prueba completado');
+    expect(feedback.getAttribute('role')).toBe('status');
+    expect(document.activeElement).toBe(feedback);
+  });
+
+  it('oculta el éxito anterior al intentar un nuevo envío inválido', async () => {
+    fillValidForm();
+    submit();
+    await vi.runAllTimersAsync();
+    submit();
+    expect(requireElement<HTMLDivElement>(form, '#registration-feedback').hidden).toBe(true);
+    expect(input('name').getAttribute('aria-invalid')).toBe('true');
+    expect(requireElement<HTMLDivElement>(form, '#form-errors').hidden).toBe(false);
+  });
+
+  it('permite limpiar la confirmación con el botón de reinicio', async () => {
+    fillValidForm();
+    submit();
+    await vi.runAllTimersAsync();
+    form.reset();
+    const feedback = requireElement<HTMLDivElement>(form, '#registration-feedback');
+    expect(feedback.hidden).toBe(true);
+    expect(feedback.textContent).toBe('');
+  });
 });
